@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}申请承认{% endblock %}
+
+{% block page_content %}
+<h4>待提交实际休假/加班一览</h4>
+<table class="table table-bordered table-striped" >
+    <thead>
+
+    <tr>
+        <td>状态</td>
+        <td>申请日期</td>
+        <td>申请类型</td>
+        <td>申请时间(小时/天)</td>
+        <td style="display:none">理由</td>
+        <td style="display:none">ID</td>
+    </tr>
+    </thead>
+    <tbody>
+        {% for  r in role %}
+    <tr>
+        
+        <td><input type="button" value="编辑">
+    </td>
+        <td >{{ r.request_date }}</td>
+        <td>      
+        {% if  r.request_flag ==0 %}加班 {% endif %}
+        {% if  r.request_flag ==1 %}调休 {% endif %}
+        {% if  r.request_flag ==2 %}有薪假 {% endif %}
+        {% if  r.request_flag ==3 %}追加假 {% endif %}
+    </td>
+        <td id="apptime">{{ r.request_time }} </td>
+        <td id="reason" style="display:none">{{ r.reason }}</td>
+        <td id="id" style="display:none">{{ r.id }}</td>
+    </tr>
+    {% endfor %}
+    
+    </tbody>
+</table>
+
+<text id="txt" style="display:none">aaa</text>
+ <script language=javascript>
+    var oldstr;
+    $("input:button").click(function() {
+        oldstr="a";
+        if($(this).val()=="确定"){
+            var users={};
+            users["apptime"]=$(this).parents("tr").children("#apptime").children('input').val();
+            con="";
+            if (users["apptime"]!=$("#txt").text()){
+            con=prompt("和申请时间不同，需输入理由?"); 
+            };
+            users["reason"]=$(this).parents("tr").find("td").eq(4).text() + con;
+            users["id"]=$(this).parents("tr").find("td").eq(5).text();
+            users["test"]=$("#txt").text();
+            $.ajax({
+                async: false,
+                type : "post",
+                 //url :"<%=ppath%>/goodsManager/edit",
+                  url:{{ url_for('request2') }},
+                 data :users,
+                 dataType : "json",
+                 success : function(res) {
+                     if(res=="success")
+                         alert("修改成功");
+               }
+            });
+            window.location.reload(true);
+        }
+        else{
+               if (oldstr=="a")
+                {oldstr=$(this).parent().siblings("td:eq(2)").text();}
+                $("#txt").text(oldstr);
+      //  $(this).parents("tr").find("td").eq(3).text();
+        }
+
+         str = $(this).val()=="编辑"?"确定":"编辑";
+         $(this).val(str);   // 按钮被点击后，在“编辑”和“确定”之间切换
+         $(this).parent().siblings("td:eq(2)").each(function() {  // 获取当前行的其他单元格
+           // oldstr=$(this).parent().siblings("td:eq(2)").text();
+            //alert(oldstr);
+            // if ($(this).parent().children().eq(1).html().indexOf("s")>0)
+            //                          {
+              //   alert($(this).parent().children().eq(1).html().indexOf("s"));
+             var obj_text = $(this).find("input:text");    // 判断单元格下是否有文本框
+                if(!obj_text.length )   // 如果没有文本框，则添加文本框使之可以编辑
+                    {
+                        //oldstr=$(this).text();
+                        $(this).html("<input type='text' value='"+$(this).text()+"'>");
+                    }
+                else
+                    {
+                        //oldstr=obj_text.val();
+                        $(this).html(obj_text.val());
+                    }
+            //        }
+            });
+
+        });
+
+
+</script>
+{% endblock %}

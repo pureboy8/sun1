@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}申请调休或加班{% endblock %}
+
+{% block page_content %}
+<form action="{{ url_for('req') }}" method="post">
+    			<div class="form-group">
+                <!--<label for="dtp_input2" class="col-md-2 control-label">Date Picking</label>-->
+                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="" name="request_date" placeholder="你申请的日期" readonly >
+                    <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+				<input type="hidden" id="dtp_input2" value="" />
+            </div>
+
+    <div class="form_group">
+        <select class="form-control" name="request_type" >
+            <option value="0">加班</option> <!-- 加班时先更新，后在系统记录，别的先记录，后再更新系统 -->
+            <option value="1">调休</option>
+            <option value="2">有薪假</option>
+            <option value="3">追加假</option>
+        </select>
+    </div>
+    <div class="form_group">
+    <input name="request_time" type="text" placeholder="请输入小时数，如果是有薪假，请输入1：" >
+</div>
+        <div class="form_group">
+    <input name="request_reason" type="text" placeholder="请输入理由：" >
+</div>
+      <div class="form_group">
+    <button class="btn btn-primary" value="submit">提交</button>
+</div>
+</form>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+	$('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+	$('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 1,
+		minView: 0,
+		maxView: 1,
+		forceParse: 0
+    });
+</script>
+{% endblock %}

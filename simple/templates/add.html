@@ -1,0 +1,43 @@
+{#{% extends "base.html" %}#}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}登陆{% endblock %}
+
+{% block page_content %}
+<form action="{{ url_for('add') }}" method="post">
+<div class="form_group">
+    <input name="mailaddress" type="text" placeholder="邮箱">
+</div>
+<div class="form_group">
+    <input name="username" type="text" placeholder="姓名">
+</div>
+    <div class="form_group">
+    <input name="password" type="password" placeholder="初始密码" >
+</div>
+<div class="form_group">
+    <input name="val_date" type="text" placeholder="有薪假">
+</div>
+<div class="form_group">
+    <input name="holiday" type="text" placeholder="追加假">
+</div>
+<div class="form_group">
+    <input name="add_day" type="text" placeholder="可调休时间">
+</div>
+    <div class="form_group">
+    <input name="department" type="text" placeholder="部门">
+</div>
+    <div class="form_group">
+    <input name="approve1" type="text" placeholder="审批者">
+</div>
+    <div class="form_group">
+    <input name="approve2" type="text" placeholder="审批者">
+</div>
+    <div class="form_group">
+    <input name="approve3" type="text" placeholder="审批者">
+</div>
+      <div class="form_group">
+    <button class="btn btn-primary" value="提交">提交</button>
+</div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %} 
+{% block title %}申请承认{% endblock %}
+
+{% block page_content %}
+<h4>出勤一览</h4>
+<table class="table table-bordered table-striped" >
+    <thead>
+
+    <tr>
+      
+        <td>申请日期</td>
+        <td>申请类型</td>
+        <td>申请时间(小时/天)</td>
+        <td >理由</td>
+        <td style="display:none">ID</td>
+        <td>申请者</td>
+        <td>申请日期</td>
+    </tr>
+    </thead>
+    <tbody>
+        {% for  r in role %}
+    <tr>
+        
+        <td >{{ r.request_date| resve }}</td>
+        <td>      
+        {% if  r.request_flag ==0 %}加班 {% endif %}
+        {% if  r.request_flag ==1 %}调休 {% endif %}
+        {% if  r.request_flag ==2 %}有薪假 {% endif %}
+        {% if  r.request_flag ==3 %}追加假 {% endif %}
+    </td>
+        <td> {{ r.request_time }} </td>
+        <td >{{ r.reason }}</td>
+        <td id="id" style="display:none">{{ r.id }}</td>
+        <td> {{ r.user.username }}
+    </td>
+    <td>{{ r.create_time | resve }}</td>
+    </tr>
+    {% endfor %}
+    
+    </tbody>
+</table>
+{%if pagination%}
+    <div class="pagination">
+        {{ macros.pagination_widget(pagination, '.alllist') }}
+    </div>
+{% endif %} 
+{% endblock %}

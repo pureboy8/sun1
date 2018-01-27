@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}登陆{% endblock %}
+
+{% block page_content %}
+<table class="table table-bordered  table-hover">
+    <thead>
+    <tr>
+        <td>状态</td>
+        <td>邮箱</td>
+        <td>姓名</td>
+        <td>有薪假</td>
+        <td>追加假</td>
+        <td>可调休时间</td>
+        <td>部门</td>
+        <td>第一审批者</td>
+        <td>第二审批者</td>
+        <td>第三审批者</td>
+         </tr></thead>
+{% for  user in users %}
+<tr >
+<td><input type="button" value="编辑">
+    </td>
+    <td id="mailaddress" readonly=true>{{ user.mailaddress }}</td>
+        <td id="username">{{ user.username }}</td>
+        <td id="val_date">{{ user.val_date }}</td>
+        <td id="holiday">{{ user.holiday }} </td>
+        <td id="add_day">{{ user.add_day }}</td>
+        <td id="department">{{ user.department }}</td>
+        <td id="approve1">{{ user.approve1 }}</td>
+        <td id="approve2">{{ user.approve2 }}</td>
+        <td id="approve3">{{ user.approve3 }}</td>
+</tr>
+{% endfor %}
+<label id="lab"></label>
+</table>
+    <script language=javascript>
+    $("input:button").click(function() {
+        if($(this).val()=="确定"){
+            var users={};
+            users["mailaddress"]=$(this).parents("tr").children("#mailaddress").children('input').val();
+            users["username"]=$(this).parents("tr").children("#username").children('input').val();
+            users["val_date"]=$(this).parents("tr").children("#val_date").children('input').val();
+            users["holiday"]=$(this).parents("tr").children("#holiday").children('input').val();
+            users["add_day"]=$(this).parents("tr").children("#add_day").children('input').val();
+            users["department"]=$(this).parents("tr").children("#department").children('input').val();
+            users["approve1"]=$(this).parents("tr").children("#approve1").children('input').val();
+            users["approve2"]=$(this).parents("tr").children("#approve2").children('input').val();
+            users["approve3"]=$(this).parents("tr").children("#approve3").children('input').val();
+
+
+              $.ajax({
+                async: false,
+                type : "get",
+                 //url :"<%=ppath%>/goodsManager/edit",
+                  url:{{ url_for('userlist') }},
+                 data :users,
+                 dataType : "json",
+                 success : function(res) {
+                     if(res=="success")
+                         alert("修改成功");
+               }
+        });
+        }
+
+
+         str = $(this).val()=="编辑"?"确定":"编辑";
+         $(this).val(str);   // 按钮被点击后，在“编辑”和“确定”之间切换
+         $(this).parent().siblings("td").each(function() {  // 获取当前行的其他单元格
+            // if ($(this).parent().children().eq(1).html().indexOf("s")>0)
+            //              {
+            //     alert($(this).parent().children().eq(1).html().indexOf("s"));
+             var obj_text = $(this).find("input:text");    // 判断单元格下是否有文本框
+               if(!obj_text.length )   // 如果没有文本框，则添加文本框使之可以编辑
+                    $(this).html("<input type='text' value='"+$(this).text()+"'>");
+                    else
+                        $(this).html(obj_text.val());
+            //        }
+            });
+
+        });
+
+    //<button class="btn btn-primary" value="submit" onclick="check(this)">修改</button>
+    var selectedTr = null;
+    function c1(obj) {
+        obj.style.backgroundColor = 'blue'; //把点到的那一行变希望的颜色;
+        if (selectedTr != null)
+            //selectedTr.style.removeProperty("backgroundColor");
+            selectedTr.style.backgroundColor='White';
+        if (selectedTr == obj)
+            selectedTr = null;//加上此句，以控制点击变白，再点击反灰
+        else
+            selectedTr = obj;
+    }
+    /*得到选中行的第一列的值*/
+    function check(obj) {
+        selectedTr = obj;
+        if (selectedTr != null) {
+            var str = selectedTr.cells[1].childNodes[0].value;
+            //selectedTr.cells[3].childNodes[0].nodeValue
+            document.getElementById("lab").innerHTML = str;
+        } else {
+            alert("请选择一行");
+        }
+    }
+    /*删除选中行*/
+    function del() {
+        if (selectedTr != null) {
+            if (confirm("确定要删除吗?")) {
+                alert(selectedTr.cells[0].childNodes[0].value);
+                var tbody = selectedTr.parentNode;
+                tbody.removeChild(selectedTr);
+            }
+        } else {
+            alert("请选择一行");
+        }
+     //删除行;(obj代表连接对象)
+     function deleteRow(obj){
+         //获取tr对象;
+         var mytd = obj.parentNode;
+         alert(mytd.innerHTML);
+     }
+    }
+</script>
+{% endblock %}

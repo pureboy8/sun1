@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}我的页面{% endblock %}
+
+{% block page_content %}
+<h3>Hello:{{ user.username }}</h3>
+<p><span>你的有薪假有{{ user.val_date }}天，追加假{{ user.holiday }}天。可代休{{ user.add_day }}小时.
+</span></p>
+<h4>申请一览</h4>
+<table class="table table-bordered table-striped" >
+    <thead>
+
+    <tr>
+        <td>申请日期</td>
+        <td>申请类型</td>
+        <td>申请时间(小时/天)</td>
+        <td>理由</td>
+        <td>审批状态</td>
+    </tr>
+    </thead>
+    <tbody>
+        {% for  r in role %}
+    <tr>
+        <td>{{ r.request_date | resve }}</td>
+        <td>      
+        {% if  r.request_flag ==0 %}加班 {% endif %}
+        {% if  r.request_flag ==1 %}调休 {% endif %}
+        {% if  r.request_flag ==2 %}有薪假 {% endif %}
+        {% if  r.request_flag ==3 %}追加假 {% endif %}
+    </td>
+        <td>{{ r.request_time }} </td>
+        <td>{{ r.reason }}</td>
+        <td>
+        {% if  r.approve_flag ==-1 %}审批被拒 {% endif %}
+        {% if  r.approve_flag ==0 %}未审批 {% endif %}
+        {% if  r.approve_flag ==1 %}可休假或加班 {% endif %}
+        {% if  r.approve_flag ==2 %}实际提交审批 {% endif %}
+        {% if  r.approve_flag ==3 %}最终承认 {% endif %}
+    </td>
+    </tr>
+    {% endfor %}
+    
+    </tbody>
+</table>
+{% if approve_data !="" %}
+<h4>待审批一览</h4>
+<table class="table  table-bordered  table-hover"><thead>
+
+    <tr>
+        <td>审批</td>
+        <td>申请人</td>
+        <td>申请日期</td>
+        <td>申请时间</td>
+        <td >理由</td>
+        <td  style="display:none">ID</td>
+        <td>申请类型</td>
+    </tr>
+    </thead>
+    <tbody>
+        {% for ap in approve_data  %}
+        <tr >
+        <td><input type="button" value="同意"  ><input type="button" value="不同意" ></td>
+        <td>{{ ap.name }}</td>
+        <td>{{ ap.request_date | resve }}</td>
+        <td >{{ ap.request_time }}</td>
+        <td >{{ ap.reason }}</td>
+        <td id ="id1" style="display:none">{{ ap.id }}</td>
+        <td>{% if  ap.request_flag ==0 %}加班 {% endif %}
+        {% if  ap.request_flag ==1 %}调休 {% endif %}
+        {% if  ap.request_flag ==2 %}有薪假 {% endif %}
+        {% if  ap.request_flag ==3 %}追加假 {% endif %}</td>
+       </tr>
+        {% endfor %}
+        <label id="req_text" style="display:none"></label> 
+{% endif %}
+<script language=javascript>
+    $("input:button").click(function() {
+        var users={};
+        var con="0";
+        users["id1"]=$(this).parents("tr").find("td").eq(5).text();
+        if($(this).val()=="不同意"){
+            con=prompt("您不同意的理由是?"); 
+            };
+        users["req_text"]=con;
+        $("#app_id").val=id1;
+        $.ajax({
+                async: false,
+                type : "post",
+                 url:{{ url_for('approve') }},
+                 data :users,
+                 dataType : "json",
+                 success : function(res) {
+                     if(res=="success")
+                         window.location.reload();
+                     
+               }
+           })
+        window.location.reload(true);
+    }       
+        
+    )
+
+</script>
+{% endblock %}
