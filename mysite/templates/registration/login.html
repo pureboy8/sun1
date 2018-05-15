@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}blog login{% endblock %}
+
+{% block content %}
+    <div class="row text-center vertical-middle-sm">
+    <h1>Login</h1>
+    <form class="form-horizontal" action="/account/login/" method="post">
+    {% comment %}<form class="form-horizontal" action="{% url 'account:user_login' %}" method="post">{% endcomment %}
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Login">
+    </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}blog article{% endblock %}
+
+{% block content %}
+
+    <div class="row text-center vertical-middle-sm">
+        <h1>{{ article.title }}</h1>
+    </div>
+    <div class="row" >
+    <div class="col-xs-12 col-md-8">
+    <p class="text-center"><span>{{ publish }}</span></p>
+    <div id="jsPrint" >{{ article.body }}
+<img src="{% static '/imgs/a.png' %} " width="100px"></div>
+    </div></div>
+    <button onclick="printdiv('jsPrint');">打印方式1</button>
+		<button onclick="winJsPrint();">打印方式2</button>
+
+{% endblock %}
