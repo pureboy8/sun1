@@ -1,0 +1,20 @@
+﻿错误: 无法分析项目文件 MainProgram.csproj。
+
+=========================注释=================
+项目 MainProgram.csproj 已在 April 18 2018, 21:06:49 成功转换。
+错误: 无法分析项目文件 MainProgram.csproj。
+
+=========================注释=================
+项目 MainProgram.csproj 已在 April 18 2018, 21:07:08 成功转换。
+错误: 无法分析项目文件 MainProgram.csproj。
+
+=========================注释=================
+项目 MainProgram.csproj 已在 April 18 2018, 21:07:17 成功转换。
+错误: 无法分析项目文件 MainProgram.csproj。
+
+=========================注释=================
+项目 MainProgram.csproj 已在 April 18 2018, 21:07:27 成功转换。
+错误: 无法分析项目文件 MainProgram.csproj。
+
+=========================注释=================
+项目 MainProgram.csproj 已在 April 18 2018, 21:07:40 成功转换。
