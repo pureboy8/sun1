@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8">
+		<title>vue基础示例</title>
+	</head>
+	<body>
+	<div id="test01">{{msg}}</div>
+	<div id="test02" v-bind:title="msg">
+		鼠标停留触发
+	</div>
+	<div id="test03" v-if="seen">是否可见,通过vueTest03.seen = false,将状态转为不可见</div>
+	<div id="test04">
+		<span v-for="item in itemList">{{item.id}}、{{item.text}}</span>
+		<!--<ul>
+			<li v-for="item in itemList" v-if="item.id == 1">
+				<span>{{item.id}}、{{item.text}}</span>
+			</li>
+		</ul>-->
+	</div>
+	<div id = "test05">
+		<p>{{msg}}</p>
+		<button v-on:click="changeMsg();">{{btnMsg}}</button>
+	</div>
+	<div id="test06">
+		<p>{{msg}}</p>
+		<input v-model="msg">
+	</div>
+
+	<div id="test07">
+		<ul>
+			<todo-item v-for = "item in list" v-bind:todo = "item" v-bind:key = "item.id"></todo-item>
+		</ul>
+	</div>
+
+	<script src="../js/vue.js"></script>
+	<script>
+		//el 必须是选择  也可以使用.class
+		var vueTest01 = new Vue({
+			el : "#test01",
+			data : {
+			    msg : "test01"
+			}
+		});
+
+        var vueTest02 = new Vue({
+            el : "#test02",
+            data : {
+                msg : "页面加载于" + new Date().toLocaleString()
+            }
+        });
+
+        var vueTest03 = new Vue({
+			el : "#test03",
+			data : {
+			    seen : true
+			}
+		});
+
+		var vueTest04 = new Vue({
+			el : "#test04",
+			data : {
+			    itemList : [
+					{id : 1, text : "第一项"},
+					{id : 2, text : "第二项"},
+					{id : 3, text : "第三项"}
+				]
+			}
+		});
+
+		var vueTest05 = new Vue({
+			el : "#test05",
+			data : {
+			    msg : "12345",
+				btnMsg : "消息逆转"
+			},
+			methods: {
+                changeMsg:function () {
+					this.msg = this.msg.split("").reverse().join("");
+                }
+			}
+		});
+
+		var vueTest06 = new Vue({
+			el : "#test06",
+			data : {
+			    msg:"双向绑定"
+			}
+		})
+
+		Vue.component("todo-item",{
+			props:["todo"],
+			template:"<li>{{todo.text}}</li>"
+		});
+		
+		var vueTest07 = new Vue({
+			el : "#test07",
+			data :{
+			    list:[
+					{id: 1, text: "第一项"},
+					{id: 2, text: "第二项"}
+				]
+			}
+		});
+	</script>
+	</body>
+</html>

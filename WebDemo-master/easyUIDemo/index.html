@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Basic ComboTree - jQuery EasyUI Demo</title>
+		<link rel="stylesheet" type="text/css" href="css/lib/easyui.css">
+		<link rel="stylesheet" type="text/css" href="css/lib/icon.css">
+
+		<title>easyUI Demo</title>
+		<style>
+			.main{
+				width: 900px;
+				height: auto;
+				margin: auto;
+				padding-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main">
+			<div class="easyui-layout" style="width:700px;height:500px;">
+				<div data-options="region:'east',split:true" title="East" style="width:100px;"></div>
+				<div data-options="region:'center',title:'Main Title',iconCls:'icon-ok'">
+					<table class="easyui-datagrid"
+							data-options="url:'datagrid_data1.json',method:'get',border:false,singleSelect:true,fit:true,fitColumns:true">
+						<thead>
+							<tr>
+								<th data-options="field:'itemid'" width="80">Item ID</th>
+								<th data-options="field:'productid'" width="100">Product ID</th>
+								<th data-options="field:'listprice',align:'right'" width="80">List Price</th>
+								<th data-options="field:'unitcost',align:'right'" width="80">Unit Cost</th>
+								<th data-options="field:'attr1'" width="150">Attribute</th>
+								<th data-options="field:'status',align:'center'" width="60">Status</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="js/lib/jquery-1.11.0.js"></script>
+		<script type="text/javascript" src="js/lib/jquery.easyui.min.js"></script>
+		<script>
+			
+		</script>
+	</body>
+</html>
