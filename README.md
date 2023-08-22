@@ -12,4 +12,4 @@ Desing by Sylar 20180125
 
 ## 测试方法 ##
 
-直接运行python hello.lpy
+直接运行python hello.py
